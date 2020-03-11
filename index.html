@@ -1,0 +1,103 @@
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>css样式表</title>
+
+<!--<style type="text/css">
+    div{
+        width:100px;
+        height:100px;
+        background-color:red;
+    }
+    
+    
+</style>
+-->
+<link rel="stylesheet" type="text/css" href="">
+</head>
+
+<body>
+    <!--1.行间样式
+    <div style="width:100px;height:100px;background-color:green"></div>-->
+    <!--2页面级引入方式-->
+    <!--3.外部css文件-->
+    <!--本次课讲解外部css文件引入方式-->
+    <!--1.ID选择器用"#"号
+    <div id="only">
+        你好吗？
+    </div>    
+    -->
+    <!--2.class选择器用"."
+    <div class="demo demo1">
+        hjj
+    </div>
+    <div class="demo">哈哈哈</div>
+
+3.标签选择器用标签
+<div>5678</div>
+4.通配符选择器"*"：全局标签都变
+<span>全局字体变红</span>
+
+
+5.属性选择器用"[]"号
+<div id="only2">属性选择器测试</div>
+<div id="only3">测试</div>
+
+-->
+<!--注意：行间样式大于ID优先级高于class,class选择器高于标签选择器，大于通配符选择器:行间样式>id>class>标签选择器>通配符选择器
+<div id="demo2" class="demo3">优先级测试</div>
+
+<div id="only4" style="background-color:black">优先级测试</div>
+
+class选择器与属性选择器对等，谁在后覆盖前
+
+<div id="only5" class="demo4">对比</div>
+
+
+"!important最大"
+<div style="background-color:black">谁最大</div>
+
+css权重 256进制
+！important infinity
+行间样式 1000
+id 100
+class]属性|伪类 1
+通配符 0
+
+父子选择器
+<div>
+    <span>abc</span>
+</div>
+<span>def</span>
+
+
+<div>
+    <strong>
+        <em>ghj</em>
+    </strong>
+    
+    <em>klj</em>
+    
+</div>
+
+直接子元素
+
+<div>
+       <em>aaa</em>
+    <strong>
+        <em>bbb</em>
+    </strong>
+ -->   
+ 并列选择器
+ <div>1</div>
+ <div class="demo5">2</div>
+ <p class="demo5">3</p>
+ 
+    
+</div>
+</body>
+
+
+
+</html>
