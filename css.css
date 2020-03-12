@@ -9,9 +9,19 @@ div{
 a {
 
     font-size:30px;
-    
+    text-decoration:none;
   
 }
+
+a:hover{
+    text-decoration:underline;
+    background-color:#f40;
+    color:#fff;
+    font-size:40px;
+    font-family:arial;
+    border-radius:15px;
+    
+    }
 
 h1{
     text-align:center;
