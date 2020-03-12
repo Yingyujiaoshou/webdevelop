@@ -3,6 +3,7 @@ div{
     margin-right:auto;
     text-align:center;
     border:2px dotted black;
+    border-color:red;
     width:400px;
     height:300px;
 }
