@@ -1,0 +1,17 @@
+CACHE MANIFEST
+
+# 2012-02-21 v1.0.0
+
+/css.css
+
+/mmexport1582213064475.jpg
+
+/main.js
+
+NETWORK:
+
+login.asp
+
+FALLBACK:
+
+/html/ /offline.html
