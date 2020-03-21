@@ -7,7 +7,7 @@ div{
     height:800px;
 }
 li a{
-    text-align:center;
+    align:center;
     font-size:36px;
     text-decoration:none;
     color:yellow;
