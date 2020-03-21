@@ -8,7 +8,7 @@ div{
 }
 li a{
 
-    font-size:30px;
+    font-size:36px;
     text-decoration:none;
     color:yellow;
   
@@ -16,7 +16,7 @@ li a{
 
 p a{
     color:red;
-    font-size:16px;
+    font-size:26px;
     text-align:center;
     
 }
@@ -25,7 +25,7 @@ a:hover{
     text-decoration:underline;
     background-color:#f40;
     color:#fff;
-    font-size:40px;
+    font-size:43px;
     font-family:arial;
     border-radius:15px;
     
