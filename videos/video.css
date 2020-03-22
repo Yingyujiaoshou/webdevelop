@@ -1,0 +1,43 @@
+body {
+    background: #133939;
+    color: #eef;
+    font-family:'Helvetica Neue', 'Free Sans', 'Deja Vu Sans', Arial, Helvetica, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', Osaka, 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+    line-height:1.5;
+    margin: 0 auto;
+    max-width: 680px;
+}
+h1 {
+    text-align: center;
+}
+a {
+    color: #ccf;
+}
+video {
+    max-width: 100%;
+    width: 640px;
+}
+main, aside, footer {
+    padding: 0 20px;
+}
+main {
+    background: #001;
+    border-radius: 8px;
+    color: #ccc;
+    padding-bottom: 10px;
+    padding-top: 20px;
+}
+.controls {
+    text-align: center;
+}
+input[type=range] {
+    vertical-align: middle;
+}
+@media all and (max-width: 680px) {
+    body {
+        max-width: 520px;
+    }
+    video {
+        max-width: 100%;
+        width: 480px;
+    }
+}
