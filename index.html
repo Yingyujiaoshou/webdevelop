@@ -133,6 +133,49 @@ class]属性|伪类 1
     <p style="text-align:center"><a href="index1.html">免责声明</a><br/>
 <a href="mailto:3100925625@qq.com">给我们写邮件</a>
 
+ <video id="Test_Video" width="360" height="240" controls> 
+
+        <source src="http://mpvideo.qpic.cn/0bf2omaaaaaae4abb4tupjpfa46dabzqaaaa.f10002.mp4?dis_k=6a6caa9df3682e7fc6156624438bf5ab&dis_t=1584862227" type="video/mp4"> 
+
+        <source src="movie.ogg" type="video/ogg"> 
+
+    </video> 
+<button ondblclick="My_VideoRate()" type="button"> 
+
+        Return Playback Speed 
+
+    </button> 
+    
+    <button ondblclick="Set_VideoRate()" type="button"> 
+
+        Change Playback Speed 
+
+    </button> 
+
+      <p>视频仅支持在微信中打开</p>
+
+    <script> 
+
+        var v = document.getElementById("Test_Video"); 
+
+          
+
+        function My_VideoRate() {  
+
+            alert(v.playbackRate); 
+
+        }  
+
+          
+
+        function Set_VideoRate() {  
+
+            v.playbackRate = 2; 
+
+        }  
+
+    </script> 
+
 </p>
       <!--身体-->
         <canvas id="canvas">您的浏览器不支持cnavas绘图，请您更换浏览器!!</canvas>
