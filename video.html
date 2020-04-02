@@ -42,26 +42,26 @@
     (function() {
         'use strict';
         
-        var video = document.getElementById("videoElement");
+        var audio = document.getElementById("videoElement");
         var rateOutput = document.getElementById('rateOutput');
         var rateSlider = document.getElementById('rateSlider');
         
         rateSlider.onchange = function(event) {
             // When the slider is moved, changed the video's playback rate
-            video.playbackRate = rateSlider.value;
+            audio.playbackRate = rateSlider.value;
         };
         
-        video.onplay = function(event) {
+        audio.onplay = function(event) {
             // We can only change the playbackRate once the video has started playing
-            video.playbackRate = rateSlider.value;
+            audio.playbackRate = rateSlider.value;
         };
         
-        video.onratechange = function(event) {
+        audio.onratechange = function(event) {
             // When the playback rate changes, display the new value
-            rateOutput.textContent = video.playbackRate;
+            rateOutput.textContent = audio.playbackRate;
             
             // And let's have some colourful fun while we're here
-            document.body.style.background = 'hsl(' + (video.playbackRate * 180) + ', 50%, 15%)';
+            document.body.style.background = 'hsl(' + (audio.playbackRate * 180) + ', 50%, 15%)';
         };
         
         rateOutput.textContent = rateSlider.value;
