@@ -12,14 +12,14 @@
     <h4>公众号：英语教授 <code>最新视频</code></h4>
     
     <main>
-        <audio id="videoElement" controls poster="velocity-thumbnail.jpg">
-            <!--<source src="http://mpvideo.qpic.cn/0b78omaacaaakmabbklxpnpfa46dafzqaaia.f10002.mp4?dis_k=53ff222a6c04a00f7f4f85305f295b52&dis_t=1584888055" type="video/mp4" media="all and (max-width:680px)"> 
+        <video id="videoElement" controls poster="velocity-thumbnail.jpg">
+            <source src="http://mpvideo.qpic.cn/0b78omaacaaakmabbklxpnpfa46dafzqaaia.f10002.mp4?dis_k=53ff222a6c04a00f7f4f85305f295b52&dis_t=1584888055" type="video/mp4" media="all and (max-width:680px)"> 
            <source src="http://mpvideo.qpic.cn/0b78omaacaaakmabbklxpnpfa46dafzqaaia.f10002.mp4?dis_k=53ff222a6c04a00f7f4f85305f295b52&dis_t=1584888055" type="video/webm" media="all and (max-width:680px)">
             <source src="http://mpvideo.qpic.cn/0b78omaacaaakmabbklxpnpfa46dafzqaaia.f10002.mp4?dis_k=53ff222a6c04a00f7f4f85305f295b52&dis_t=1584888055" type="video/mp4">
-           <source src="mpvideo.qpic.cn/0b78omaacaaakmabbklxpnpfa46dafzqaaia.f10002.mp4?dis_k=53ff222a6c04a00f7f4f85305f295b52&dis_t=1584888055" type="video/webm">-->
-           < source src="https://res.wx.qq.com/voice/getvoice?mediaid=MzI5MTIxMjM5MV81MDQwMDg0MTc=" type="audio/mp3">
+           <source src="mpvideo.qpic.cn/0b78omaacaaakmabbklxpnpfa46dafzqaaia.f10002.mp4?dis_k=53ff222a6c04a00f7f4f85305f295b52&dis_t=1584888055" type="video/webm">
+         
             <p>Sorry, there's a problem playing this video. Please try using a different browser.</p>
-        </audio>
+        </video>
         
         <p class="controls">
             <label>倍数播放: <input type="range" step="0.1" min="0.5" max="2" value="1" id="rateSlider"></label> <span id="rateOutput" aria-live="polite"></span>
@@ -42,26 +42,26 @@
     (function() {
         'use strict';
         
-        var audio = document.getElementById("videoElement");
+        var video = document.getElementById("videoElement");
         var rateOutput = document.getElementById('rateOutput');
         var rateSlider = document.getElementById('rateSlider');
         
         rateSlider.onchange = function(event) {
             // When the slider is moved, changed the video's playback rate
-            audio.playbackRate = rateSlider.value;
+            video.playbackRate = rateSlider.value;
         };
         
-        audio.onplay = function(event) {
+        video.onplay = function(event) {
             // We can only change the playbackRate once the video has started playing
             audio.playbackRate = rateSlider.value;
         };
         
-        audio.onratechange = function(event) {
+        video.onratechange = function(event) {
             // When the playback rate changes, display the new value
-            rateOutput.textContent = audio.playbackRate;
+            rateOutput.textContent = video.playbackRate;
             
             // And let's have some colourful fun while we're here
-            document.body.style.background = 'hsl(' + (audio.playbackRate * 180) + ', 50%, 15%)';
+            document.body.style.background = 'hsl(' + (video.playbackRate * 180) + ', 50%, 15%)';
         };
         
         rateOutput.textContent = rateSlider.value;
