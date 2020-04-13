@@ -24,18 +24,69 @@
 
     color: red;
 }
-          video hover:controls{
+          
+  .vjs-fade-out {
 
-        display:none !important;
+  display: block;
 
-    }
+  visibility: hidden;
+
+  opacity: 0;
+
+ 
+
+  -webkit-transition: visibility 1.5s, opacity 1.5s;
+
+     -moz-transition: visibility 1.5s, opacity 1.5s;
+
+      -ms-transition: visibility 1.5s, opacity 1.5s;
+
+       -o-transition: visibility 1.5s, opacity 1.5s;
+
+          transition: visibility 1.5s, opacity 1.5s;
+
+ 
+
+  /* 等一会儿，然后淡出控制栏 */
+
+  -webkit-transition-delay: 2s;
+
+     -moz-transition-delay: 2s;
+
+      -ms-transition-delay: 2s;
+
+       -o-transition-delay: 2s;
+
+          transition-delay: 2s;
+
+}
+
+
         
         </style>
+    
+    <script>
+        player.on('mouseout', function(){ 
+
+  controlBar.addClass('vjs-fade-out'); 
+
+});
+
+ 
+
+player.on('mouseover', function(){ 
+
+  controlBar.removeClass('vjs-fade-out'); 
+
+});
+
+
+        </script>
     
 </head>
 
 <body>
-<video id="my-audio-stream" controls="controls" controlsList="fullscreen nodownload" poster="giphy.gif" width="1280px" height="720px">
+<video id="my-audio-stream" class="vjs-fade-out" controls="controls" controlsList="fullscreen nodownload" poster="giphy.gif" width="1280px" height="720px">
 
     <source src="https://res.wx.qq.com/voice/getvoice?mediaid=MzI5MTIxMjM5MV81MDQwMDg0MzE=" >
 
