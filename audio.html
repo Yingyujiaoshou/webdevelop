@@ -35,7 +35,7 @@
 </head>
 
 <body>
-<video id="my-audio-stream" controls controlsList="fullscreen nodownload" poster="giphy.gif" width="1280px" height="720px">
+<video id="my-audio-stream" controlsList="fullscreen nodownload" poster="giphy.gif" width="1280px" height="720px">
 
     <source src="https://res.wx.qq.com/voice/getvoice?mediaid=MzI5MTIxMjM5MV81MDQwMDg0MzE=" >
 
@@ -45,6 +45,13 @@
 
 </video>
     
+    
+<div>
+  <button onclick="document.getElementById('my-audio-stream').play()">播放</button>
+  <button onclick="document.getElementById('my-audio-stream').pause()">暂停</button>
+  <button onclick="document.getElementById('my-audio-stream').volume+=0.1">降低音量</button>
+  <button onclick="document.getElementById('my-audio-stream').volume-=0.1">提高音量</button>
+</div> 
      
 </body>
 
