@@ -35,16 +35,27 @@
 </head>
 
 <body>
-<video id="my-audio-stream" controlsList="fullscreen nodownload" poster="giphy.gif" width="1280px" height="720px">
+<video id="my-audio-stream" controlsList="fullscreen nodownload" controls poster="giphy.gif" width="1280px" height="720px">
 
     <source src="https://res.wx.qq.com/voice/getvoice?mediaid=MzI5MTIxMjM5MV81MDQwMDg0MzE=" >
 
     <track src="Why Are Dogs Better Than Cats.vtt" kind="subtitles" srclang="en" label="English">
 
-  
+    <button id="btn" onclick="threeFn()">点我</button>
 
 </video>
+   <script>
+
+var audio = document.getElementById('my-audio-stream');
+var btn = document.getElementById("btn");
+        
+btn.onclick = function(){
+            audio.controls = false;
+        }
     
+
+
+</acript> 
     
 <div>
   <button onclick="document.getElementById('my-audio-stream').play()">播放</button>
