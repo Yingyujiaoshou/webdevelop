@@ -15,10 +15,13 @@
 <meta name="Keywords" content="英语单词,英语写作,英语口语,视频,英语学习资源" />
 
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="videos/min.css">
+    <link rel="stylesheet" href="videos/video.css">
 
 <title>公众号：英语教授</title>
 
 <base target="_blank">
+
     <style>
         #my-audio-stream::cue {
 
@@ -35,7 +38,7 @@
 </head>
 
 <body>
-<video id="my-audio-stream" controlsList="fullscreen nodownload" controls poster="giphy.gif" width="1280px" height="720px">
+<video id="my-audio-stream" controlsList="fullscreen nodownload" controls poster="giphy.gif">
 
     <source src="https://res.wx.qq.com/voice/getvoice?mediaid=MzI5MTIxMjM5MV81MDQwMDg0MzE=" >
 
@@ -48,7 +51,40 @@
    
 <button id="bt" onclick="document.getElementById('my-audio-stream').controls=true">点我恢复</button>
    
+<p class="controls">
+            <label>倍数播放: <input type="range" step="0.1" min="0.5" max="2" value="1" id="rateSlider"></label> <span id="rateOutput" aria-live="polite"></span>
+        </p>
 
+<script>
+    // Inline code is for educational purposes. Best practice is to put your scripts in external files.
+    (function() {
+        'use strict';
+        
+        var video = document.getElementById("my-audio-stream");
+        var rateOutput = document.getElementById('rateOutput');
+        var rateSlider = document.getElementById('rateSlider');
+        
+        rateSlider.onchange = function(event) {
+            // When the slider is moved, changed the video's playback rate
+            video.playbackRate = rateSlider.value;
+        };
+        
+        video.onplay = function(event) {
+            // We can only change the playbackRate once the video has started playing
+            video.playbackRate = rateSlider.value;
+        };
+        
+        video.onratechange = function(event) {
+            // When the playback rate changes, display the new value
+            rateOutput.textContent = video.playbackRate;
+            
+            // And let's have some colourful fun while we're here
+            document.body.style.background = 'hsl(' + (video.playbackRate * 180) + ', 50%, 15%)';
+        };
+        
+        rateOutput.textContent = rateSlider.value;
+    })();
+    </script>
 
     
      
