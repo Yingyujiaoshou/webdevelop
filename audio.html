@@ -96,12 +96,12 @@
             document.body.style.background = 'hsl(' + (video.playbackRate * 180) + ', 50%, 15%)';
         };
         
-        video.onmouseover = function(){
-        video.style.display = 'block';
+        video.onmouseover = function(event){
+        video.controls = 'false';
         };
         
-        video.onmouseout = function(){
-        video.style.display = 'none';
+        video.onmouseout = function(event){
+        video.controls = 'true';
         };
         
         
