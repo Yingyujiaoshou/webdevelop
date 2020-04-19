@@ -76,6 +76,7 @@
         var video = document.getElementById("my-audio-stream");
         var rateOutput = document.getElementById('rateOutput');
         var rateSlider = document.getElementById('rateSlider');
+       
         
         rateSlider.onchange = function(event) {
             // When the slider is moved, changed the video's playback rate
@@ -94,6 +95,15 @@
             // And let's have some colourful fun while we're here
             document.body.style.background = 'hsl(' + (video.playbackRate * 180) + ', 50%, 15%)';
         };
+        
+        video.onmouseover = function(){
+        this.video.style.display = 'block';
+        }
+        
+        video.onmouseout = function(){
+        this.video.style.display = 'none';
+        }
+        
         
         rateOutput.textContent = rateSlider.value;
     })();
