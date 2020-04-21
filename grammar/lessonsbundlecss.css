@@ -1631,11 +1631,11 @@
      #problemsContent {
          min-height: 500px
      }
-     /* html.not-authenticated #problemsContent .title,
+     html.not-authenticated #problemsContent .title,
     html.not-authenticated #problemsContent .directions,
     html.not-authenticated #problemsContent .problems {
         display: none
-    } */
+    }
      
      #feedbackOverlay {
          position: fixed;
