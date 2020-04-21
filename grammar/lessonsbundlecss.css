@@ -272,12 +272,12 @@
          padding-left: 30px;
          background: url(../Images/pdf.gif) left center no-repeat
      }
-     /* html.not-authenticated .authenticated {
+     html.not-authenticated .authenticated {
     display: none!important
-} */
-     /* html.authenticated .not-authenticated {
+} 
+      html.authenticated .not-authenticated {
     display: none!important
-} */
+} 
      
      #layoutMain {
          display: table;
