@@ -544,8 +544,7 @@
 
   <!--  <script src="lessonsbundlejs2.js"></script>-->
 <script>
-var dl = document.querySelector('dl');
-var problems  = dl.querySelectorAll('.problems');
+var problems  = document.querySelectorAll('.problems');
 for (var j = 0; j < problems.length; j++){
 problems[j].onclick = function(){
 var span = problems[j].querySelectorAll('span');
