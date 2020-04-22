@@ -545,16 +545,13 @@
   <!--  <script src="lessonsbundlejs2.js"></script>-->
 <script>
 var problems  = document.querySelectorAll('.problems');
-for (var j = 0; j < problems.length; j++){
-problems[j].onclick = function(){
-var span = problems[j].querySelectorAll('span');
+var span = problems.querySelectorAll('span');
 for (var i = 0; i < span.length; i++){
 span[i].onclick = function(){
 this.className= 'on';
 }
 }
-}
-}
+
 
 	
 
