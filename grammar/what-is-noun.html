@@ -560,6 +560,8 @@ this.className= 'imon';
 }
 
 */
+	
+/*
 var problems  = document.querySelectorAll('dl.problems');
 for (var j = 0; j < problems.length; j++) {
 var proble = problems[j];
@@ -578,8 +580,32 @@ this.className='choice';
 }
 }
 }
+}*/
+var problems  = document.querySelectorAll('dl.problems');
+
+for (var j = 0; j < problems.length; j++) {
+
+var proble = problems[j];
+
+var span = proble.querySelectorAll('span.choice');
+
+for (var i = 0; i < span.length; i++){
+var ni = true;
+if (ni==true){
+span[i].onclick = function(){
+	
+
+	this.className= 'imon';
 }
 
+}
+
+}
+
+}
+
+
+	
 
 	
 
