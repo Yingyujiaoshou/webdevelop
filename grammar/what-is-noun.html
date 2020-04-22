@@ -13,7 +13,9 @@
 
 .on {
     border:1px solid #09f;!important
-    background-color:#a6dbed;!important}
+    background-color:#a6dbed;!important
+    display:inline-block
+	}
 
 </style>
 
@@ -550,6 +552,7 @@ var proble = problems[j];
 var span = proble.querySelectorAll('span.choice');
 for (var i = 0; i < span.length; i++){
 span[i].onclick = function(){
+	
 this.className= 'on';
 }
 }
