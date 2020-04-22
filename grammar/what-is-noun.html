@@ -547,14 +547,15 @@
 var dl = document.querySelector('dl');
 var problems  = dl.querySelectorAll('.problems');
 for (var j = 0; j < problems.length; j++){
-problems = problems[j];
+problems[j] = function(){
 var span = problems.querySelectorAll('span');
 for (var i = 0; i < span.length; i++){
 span[i].onclick = function(){
 this.className= 'on';
 }
 }
-};
+}
+}
 
 	
 
