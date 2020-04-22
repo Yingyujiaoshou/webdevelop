@@ -16,6 +16,9 @@
     background-color:#a6dbed;!important
     display:inline-block!important
 	}
+.choice {
+border:1px solid red;!important
+}
 
 </style>
 
@@ -562,7 +565,7 @@ this.className= 'imon';
 */
 	
 
-var problems  = document.querySelectorAll('dl.problems');
+/*var problems  = document.querySelectorAll('dl.problems');
 for (var j = 0; j < problems.length; j++) {
 var proble = problems[j];
 var span = proble.querySelectorAll('span.choice');
@@ -580,9 +583,9 @@ this.className='choice';
 }
 }
 }
-}
+}*/
 	
-/*var problems  = document.querySelectorAll('dl.problems');
+var problems  = document.querySelectorAll('dl.problems');
 
 for (var j = 0; j < problems.length; j++) {
 
@@ -598,7 +601,6 @@ span[i].onclick = function(){
 
 	this.className= 'imon';
         ni = false;
-return ni;
 }else{
 span[i].onclick = function(){
 this.className= 'choice';
@@ -611,7 +613,7 @@ ni = true;
 
 }
 
-}*/
+}
 
 
 	
