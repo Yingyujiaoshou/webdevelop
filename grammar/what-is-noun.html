@@ -616,7 +616,7 @@ ni = true;
 
 
 	
-var problems  = document.querySelectorAll('dl.problems');
+/*var problems  = document.querySelectorAll('dl.problems');
 for (var j = 0; j < problems.length; j++) {
 var proble = problems[j];
 var span = proble.querySelectorAll('span.choice');
@@ -628,10 +628,25 @@ $("span[i]").click(function(){
 
 });
 }
-}
+}*/
 	
 
-
+var question = document.getElementsByTagName('dd')[10]
+    
+        question.onclick = function (e) {
+            if (e.target.tagName != 'LABEL') return//点击的不是label标签，则不执行后面的语句
+            
+            if (e.target.className != 'imon') {
+                
+                e.target.classList.add('imon')//新增on样式
+               // my_selects()
+            } else if (e.target.className == 'imon') {
+                e.target.innerHTML = ''
+                e.target.classList.remove('imon')//移除on样式
+                //my_selects()
+            }
+        }
+    
 	
 	
 </script>
