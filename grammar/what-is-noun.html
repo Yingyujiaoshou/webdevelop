@@ -671,12 +671,12 @@ for (var j = 0; j < problems.length; j++) {
 var proble = problems[j];
 var span = proble.querySelectorAll('span.choice');
 for (var i = 0; i < span.length; i++){
-span[i].onclick = function(){
-if (span[i].style.display != "inline-block"){
+span[i].onclick = function(e){
+if (e.target.style.display != "inline-block"){
 	
 this.style.display= 'inline-block';
 this.classList.add('imon')
-}else if (span[i].style.display == "inline-block") {
+}else if (e.target.style.display == "inline-block") {
 this.style.display= 'inline';
 
 this.classList.remove('imon');
