@@ -631,7 +631,7 @@ $("span[i]").click(function(){
 }*/
 	
 
-var question = document.getElementsByTagName('div')[22]
+/*var question = document.getElementsByTagName('div')[22]
     
         question.onclick = function (e) {
             if (e.target.tagName != 'LABEL') return//点击的不是label标签，则不执行后面的语句
@@ -645,7 +645,7 @@ var question = document.getElementsByTagName('div')[22]
                 e.target.classList.remove('imon')//移除on样式
                 //my_selects()
             }
-        }
+        }*/
 /*
 var problems  = document.querySelectorAll('dl.problems');
 
@@ -666,6 +666,25 @@ this.setAttribute('class','imon');
 //this.*/
 	
 	
+var problems  = document.querySelectorAll('dl.problems');
+for (var j = 0; j < problems.length; j++) {
+var proble = problems[j];
+var span = proble.querySelectorAll('span.choice');
+for (var i = 0; i < span.length; i++){
+span[i].onclick = function(){
+if (span[i].style.display != "inline-block"){
+	
+this.style.display= 'inline-block';
+this.classList.add('imon')
+}else if (span[i].style.display == "inline-block") {
+this.style.display= 'inline';
+
+this.classList.remove('imon');
+}
+}
+}
+}
+
 </script>
 
 </body>
