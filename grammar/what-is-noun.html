@@ -549,7 +549,7 @@ border:1px solid red;!important
 
   <!--  <script src="lessonsbundlejs2.js"></script>-->
 <script>
-
+/*
 var problems  = document.querySelectorAll('dl.problems');
 for (var j = 0; j < problems.length; j++) {
 var proble = problems[j];
@@ -560,7 +560,7 @@ span[i].onclick = function(){
 this.className= 'imon';
 }
 }
-}
+}*/
 
 
 	
@@ -616,7 +616,18 @@ ni = true;
 
 
 	
-
+var problems  = document.querySelectorAll('dl.problems');
+for (var j = 0; j < problems.length; j++) {
+var proble = problems[j];
+var span = proble.querySelectorAll('span.choice');
+for (var i = 0; i < span.length; i++){
+span[i].onclick = function(){
+if($('span[i]').hasClass('choice')){ 
+this.className= 'imon';
+}
+}
+}
+}
 	
 
 
