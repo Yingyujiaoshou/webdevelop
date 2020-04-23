@@ -631,7 +631,7 @@ $("span[i]").click(function(){
 }*/
 	
 
-var question = document.getElementsByTagName('dt')[12]
+/*var question = document.getElementsByTagName('dt')[12]
     
         question.onclick = function (e) {
             if (e.target.tagName != 'LABEL') return//点击的不是label标签，则不执行后面的语句
@@ -645,8 +645,30 @@ var question = document.getElementsByTagName('dt')[12]
                 e.target.classList.remove('imon')//移除on样式
                 //my_selects()
             }
-        }
-    
+        }*/
+	
+var problems  = document.querySelectorAll('dl.problems');
+
+for (var j = 0; j < problems.length; j++) {
+
+var proble = problems[j];
+
+var span = proble.querySelectorAll('span.choice');
+
+for (var i = 0; i < span.length; i++){
+
+//span[i].onclick = function(){
+
+//this.className= 'imon';
+span[i].addEventListener('click',function(){
+this.className= 'imon';
+})
+
+}
+
+}
+
+}
 	
 	
 </script>
