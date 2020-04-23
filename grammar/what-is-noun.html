@@ -399,7 +399,7 @@ border:none;
                         </dl>
                         <dl id="g1" class="problems">
                             <dt id="1" class="problem"><button class="answer">?</button><span class="id">1.</span></dt>
-                            <dd><span class="choice">The</span> <span class="choice">birds</span> <span class="choice">and</span> <span class="choice">squirrels</span> <span class="choice">enjoy</span> <span class="choice">the</span> <span class="choice">corn</span>                                <span class="choice">my</span> <span class="choice">mother</span> <span class="choice">hung</span> <span class="choice">in</span> <span class="choice">the</span> <span class="choice">backyard</span><span class="text">.</span></dd>
+                            <div><span class="choice">The</span> <span class="choice">birds</span> <span class="choice">and</span> <span class="choice">squirrels</span> <span class="choice">enjoy</span> <span class="choice">the</span> <span class="choice">corn</span>                                <span class="choice">my</span> <span class="choice">mother</span> <span class="choice">hung</span> <span class="choice">in</span> <span class="choice">the</span> <span class="choice">backyard</span><span class="text">.</span></div>
                             <dt id="2" class="problem"><button class="answer">?</button><span class="id">2.</span></dt>
                             <dd><span class="choice">The</span> <span class="choice">runners</span> <span class="choice">ran</span> <span class="choice">quickly</span> <span class="choice">down</span> <span class="choice">the</span> <span class="choice">track</span>
                                 <span class="text">,</span> <span class="choice">passing</span> <span class="choice">along</span> <span class="choice">the</span> <span class="choice">baton</span><span class="text">,</span> <span class="choice">to</span>                                <span class="choice">win</span> <span class="choice">their</span> <span class="choice">race</span><span class="text">.</span></dd>
@@ -631,7 +631,7 @@ $("span[i]").click(function(){
 }*/
 	
 
-/*var question = document.getElementsByTagName('dt')[12]
+var question = document.getElementsByTagName('div')[0]
     
         question.onclick = function (e) {
             if (e.target.tagName != 'LABEL') return//点击的不是label标签，则不执行后面的语句
@@ -645,8 +645,8 @@ $("span[i]").click(function(){
                 e.target.classList.remove('imon')//移除on样式
                 //my_selects()
             }
-        }*/
-	
+        }
+/*
 var problems  = document.querySelectorAll('dl.problems');
 
 for (var j = 0; j < problems.length; j++) {
@@ -663,17 +663,7 @@ this.setAttribute('class','imon');
 
 	
 //span[i].addEventListener('click',function(){
-//this.className= 'imon';
-//})
-
-}
-	span[i].onclick=function(){
-this.setAttribute('class','choice');
-}
-
-}
-
-}
+//this.*/
 	
 	
 </script>
