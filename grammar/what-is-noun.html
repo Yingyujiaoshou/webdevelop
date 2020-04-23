@@ -572,9 +572,9 @@ var span = proble.querySelectorAll('span.choice');
 for (var i = 0; i < span.length; i++){
 
 	
-
+if (span[i].className=='choice'){
 	span[i].onclick = function(){
-	if (span[i].className=='choice'){
+	
 this.className='imon';
 }else {
 this.className='choice';
