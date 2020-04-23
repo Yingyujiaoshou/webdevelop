@@ -685,7 +685,7 @@ this.classList.remove('imon');
 }
 }*/
 	
-var question = document.getElementsByTagName('dl')[0]
+var question = document.getElementsByTagName('dl')[2]
     
         question.onclick = function (e) {
             if (e.target.tagName != 'SPAN') return//点击的不是label标签，则不执行后面的语句
@@ -693,12 +693,12 @@ var question = document.getElementsByTagName('dl')[0]
             if (e.target.style.display != 'inline-block') {
                 //e.target.innerHTML = '✔'
                 e.target.style.display="inline-block"
-                e.target.classList.add('on')//新增on样式
+                e.target.classList.add('imon')//新增on样式
                 
                // my_selects()
             } else if (e.target.style.display == 'inline-block') {
                 e.target.style.display= 'inline'
-                e.target.classList.remove('on')//移除on样式
+                e.target.classList.remove('imon')//移除on样式
                 //my_selects()
             }
         }
