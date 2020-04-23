@@ -664,9 +664,9 @@ this.setAttribute('class','imon');
 	
 //span[i].addEventListener('click',function(){
 //this.*/
+
 	
-	
-var problems  = document.querySelectorAll('dl.problems');
+/*var problems  = document.querySelectorAll('dl.problems');
 for (var j = 0; j < problems.length; j++) {
 var proble = problems[j];
 var span = proble.querySelectorAll('span.choice');
@@ -683,7 +683,25 @@ this.classList.remove('imon');
 }
 }
 }
-}
+}*/
+	
+var question = document.getElementsByTagName('dl')[0]
+    
+        question.onclick = function (e) {
+            if (e.target.tagName != 'SPAN') return//点击的不是label标签，则不执行后面的语句
+            
+            if (e.target.style.display != 'inline-block') {
+                //e.target.innerHTML = '✔'
+                e.target.style.display="inline-block"
+                e.target.classList.add('on')//新增on样式
+                
+               // my_selects()
+            } else if (e.target.style.display == 'inline-block') {
+                e.target.style.display= 'inline'
+                e.target.classList.remove('on')//移除on样式
+                //my_selects()
+            }
+        }
 
 </script>
 
