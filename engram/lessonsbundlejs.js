@@ -1280,7 +1280,7 @@ cingletree.problems = function() { var n = 0,
         f = function(n) { var i = t(n); return i.filter(".on").length > 0 },
         l = function(n) { return n.is("dt") ? n.next("dd").addClass("unanswered") : n.is("tr") ? n.addClass("unanswered") : void 0 },
         a = function(n) { return n.is("dt") ? n.next("dd").removeClass("unanswered") : n.is("tr") ? n.removeClass("unanswered") : void 0 },
-        v = function(n) { var t = ""; return (cingletree.settings.isPublic || cingletree.client.isAuthenticated() || (t += "* Log in before checking answer.\n"), f(n) || (t += "* Make a selection before checking answer.\n"), t) ? (alert(t), !1) : !0 },
+        v = function(n) { var t = ""; return (cingletree.settings.isPublic || cingletree.client.isAuthenticated() || (t += "* 请先作答再看答案\n"), f(n) || (t += "* Make a selection before checking answer.\n"), t) ? (alert(t), !1) : !0 },
         y = function() { var n = $(this);
             u(n) && (n.toggleClass("on"), h(i(n))) },
         p = function() { var i = $(this),
