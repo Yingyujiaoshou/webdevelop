@@ -1391,26 +1391,4 @@ cingletree.scoring = function() { var n = .8,
                     f = "Score: " + u + "%\n"; return u == 100 ? f += r + "\n" : u >= n * 100 && (f += i + "\n"), f },
             t = function() { var n = Math.round(cingletree.record.ScoreRaw * 100) / 100; return Math.round(n * 100 / cingletree.lesson.totalPoints) },
             p = function(t, u) { var s, h, o, f, c; if (t == 100) return '<p class="subject-message passed">' + r + "<\/p>"; if (t >= n * 100) return '<p class="subject-message passed">' + i + "<\/p>"; if (u.length > 0) { for (s = u.join().split(","), h = "", o = 0; o < s.length; o++) f = cingletree.lessons[s[o]], c = cingletree.modules[f.ModuleId], h += '<a class="report-suggested-link" href="/module-' + c.ModuleId + "/" + c.RouteModule + "/" + f.RouteDescriptor + "/" + f.RouteTitle + '">' + f.Descriptor + " " + (f.Title.length > 21 ? "<br />" + f.Title : f.Title) + "<\/a>"; return '<dl class="report-suggested-lessons"><dt class="subject-message">' + e + "<\/dt><dd>" + h + "<\/dd><\/dl>" } }; return { passingThreshold: function() { return n }, scoreProblems: o, resetProblems: s, scoreProblem: f, problemsScored: h, setScoreBoard: c, resetScoreBoard: l, displayReport: a, resetReport: v, getScoreMessage: y, getOverallScore: t } }()
-    /*
-         FILE ARCHIVED ON 05:20:41 Sep 16, 2017 AND RETRIEVED FROM THE
-         INTERNET ARCHIVE ON 07:38:47 Apr 27, 2020.
-         JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
-
-         ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
-         SECTION 108(a)(3)).
-    */
-    /*
-    playback timings (ms):
-      PetaboxLoader3.datanode: 45.385 (4)
-      captures_list: 210.079
-      PetaboxLoader3.resolve: 77.635 (3)
-      RedisCDXSource: 1.681
-      CDXLines.iter: 12.676 (3)
-      LoadShardBlock: 81.915 (3)
-      exclusion.robots: 110.246
-      xauthn.chkprivs: 0.071
-      xauthn.identify: 109.825
-      exclusion.robots.policy: 110.233
-      load_resource: 66.287
-      esindex: 0.015
-    */
+    
