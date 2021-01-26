@@ -34,8 +34,8 @@ window.setTimeout("toggleSound()",4000);
         
 
                
-              /* document.getElementById("contentes").innerHTML="<iframe width='400' height='300' src='http://dict.youdao.com/search?q="+contents+"&keyfrom=new-fanyi.smartResult'></iframe>";
+              document.getElementById("contentes").innerHTML="<iframe width='400' height='300' src='http://dict.youdao.com/search?q="+contents+"&keyfrom=new-fanyi.smartResult'></iframe>";
     contentes.style.display = "block";
       
-        */
+        
 })
