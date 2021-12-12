@@ -10,13 +10,29 @@
 			<input type="radio" class="cr" id="opt3" name="q1" value="c"><label for="opt3">c) an object</label><br>
 			<input type="radio" class="icr" id="opt4" name="q1" value="d"><label for="opt4">d) an adverbial clause</label><br>
 
-			<p id="qq2">2. What kind of verb can be <b>both</b> transitive and intransitive?</p><input type="radio" class="icr" id="opt5" name="q2" value="a"><label for="opt5">a) monotransitive </label><br><input type="radio" class="icr" id="opt6" name="q2" value="b"><label for="opt6">b) ditransitive </label><br><input type="radio" class="icr" id="opt7" name="q2" value="c"><label for="opt7">c) tritransitive </label><br><input type="radio" class="cr" id="opt8" name="q2" value="d"><label for="opt8">d) ambitransitive </label><br>
+			<p id="qq2">2. What kind of verb can be <b>both</b> transitive and intransitive?</p>
+			<input type="radio" class="icr" id="opt5" name="q2" value="a"><label for="opt5">a) monotransitive </label><br>
+			<input type="radio" class="icr" id="opt6" name="q2" value="b"><label for="opt6">b) ditransitive </label><br>
+			<input type="radio" class="icr" id="opt7" name="q2" value="c"><label for="opt7">c) tritransitive </label><br>
+			<input type="radio" class="cr" id="opt8" name="q2" value="d"><label for="opt8">d) ambitransitive </label><br>
 
-			<p id="qq3">3. What kind of verb is in the following sentence?<br>“I played my grandmother a song.”</p><input type="radio" class="icr" id="opt9" name="q3" value="a"><label for="opt9">a) intransitive </label><br><input type="radio" class="icr" id="opt10" name="q3" value="b"><label for="opt10">b) monotransitive </label><br><input type="radio" class="cr" id="opt11" name="q3" value="c"><label for="opt11">c) ditransitive </label><br><input type="radio" class="icr" id="opt12" name="q3" value="d"><label for="opt12">d) tritransitive </label><br>
+			<p id="qq3">3. What kind of verb is in the following sentence?<br>“I played my grandmother a song.”</p>
+			<input type="radio" class="icr" id="opt9" name="q3" value="a"><label for="opt9">a) intransitive </label><br>
+			<input type="radio" class="icr" id="opt10" name="q3" value="b"><label for="opt10">b) monotransitive </label><br>
+			<input type="radio" class="cr" id="opt11" name="q3" value="c"><label for="opt11">c) ditransitive </label><br>
+			<input type="radio" class="icr" id="opt12" name="q3" value="d"><label for="opt12">d) tritransitive </label><br>
 
-			<p id="qq4">4. What kind of verb is in the following sentence?<br>“I swam for half an hour before my meeting.”</p><input type="radio" class="cr" id="opt13" name="q4" value="a"><label for="opt13">a) intransitive </label><br><input type="radio" class="icr" id="opt14" name="q4" value="b"><label for="opt14">b) monotransitive </label><br><input type="radio" class="icr" id="opt15" name="q4" value="c"><label for="opt15">c) ditransitive </label><br><input type="radio" class="icr" id="opt16" name="q4" value="d"><label for="opt16">d) tritransitive </label><br>
+			<p id="qq4">4. What kind of verb is in the following sentence?<br>“I swam for half an hour before my meeting.”</p>
+			<input type="radio" class="cr" id="opt13" name="q4" value="a"><label for="opt13">a) intransitive </label><br>
+			<input type="radio" class="icr" id="opt14" name="q4" value="b"><label for="opt14">b) monotransitive </label><br>
+			<input type="radio" class="icr" id="opt15" name="q4" value="c"><label for="opt15">c) ditransitive </label><br>
+			<input type="radio" class="icr" id="opt16" name="q4" value="d"><label for="opt16">d) tritransitive </label><br>
 
-			<p id="qq5">5. What kind of verb <b>only</b> has a direct object?</p><input type="radio" class="icr" id="opt17" name="q5" value="a"><label for="opt17">a) intransitive </label><br><input type="radio" class="cr" id="opt18" name="q5" value="b"><label for="opt18">b) monotransitive </label><br><input type="radio" class="icr" id="opt19" name="q5" value="c"><label for="opt19">c) ditransitive </label><br><input type="radio" class="icr" id="opt20" name="q5" value="d"><label for="opt20">d) tritransitive </label><br>
+			<p id="qq5">5. What kind of verb <b>only</b> has a direct object?</p>
+			<input type="radio" class="icr" id="opt17" name="q5" value="a"><label for="opt17">a) intransitive </label><br>
+			<input type="radio" class="cr" id="opt18" name="q5" value="b"><label for="opt18">b) monotransitive </label><br>
+			<input type="radio" class="icr" id="opt19" name="q5" value="c"><label for="opt19">c) ditransitive </label><br>
+			<input type="radio" class="icr" id="opt20" name="q5" value="d"><label for="opt20">d) tritransitive </label><br>
 
 			<input type="submit" id="quizSubmit" onclick='quizSubmit()'><div id="qResult"></div>
 		</fieldset>
