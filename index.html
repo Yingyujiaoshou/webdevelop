@@ -161,7 +161,7 @@ class]属性|伪类 1
 <li><a href="#">持续更新中...</a></li>
 
      </ul>-->
-     <h1> 时间是 <span id="time"> </span></h1>
+         <div id="time"></div>
      
      <ul>
      <li>
@@ -191,9 +191,37 @@ class]属性|伪类 1
         <canvas id="canvas">您的浏览器不支持cnavas绘图，请您更换浏览器!!</canvas>
         <script>
 
-var datetime = new Date();
+        function showTime() {
 
-document.getElementById("time").textContent = datetime;
+            var date = new Date();
+
+            // 年月日
+
+            var year = date.getFullYear();
+
+            var month = date.getMonth() + 1;
+
+            var day = date.getDate();
+
+            // 时分秒
+
+            var hour = date.getHours();
+
+            var minute = date.getMinutes();
+
+            var second = date.getSeconds();
+
+            // 实时显示
+
+            var element = document.getElementById('time');
+
+            element.innerHTML = '<h1>' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+
+        }
+
+        setInterval('showTime()', 1000);
+
+    
             var can = document.getElementById("canvas");
             var ctx = can.getContext("2d");//设置绘图环境
             var w = can.width =window.innerWidth;//把窗口的宽度赋值给画布
