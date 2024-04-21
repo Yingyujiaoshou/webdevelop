@@ -71,13 +71,18 @@ label, select {
   margin: 10px 0;
 }
  .image-container {
-            text-align: center; /* 图片居中 */
-        }
-        .image-caption {
-            font-size: 16px; /* 文字大小 */
-            color: #333; /* 文字颜色 */
-            margin-top: 10px; /* 文字与图片的间距 */
-        }
+        text-align: center; /* 图片居中 */
+    }
+    .image-container img {
+        width: 100%; /* 图片宽度为100% */
+        max-width: 430px; /* 图片最大宽度为430px */
+        height: auto; /* 高度自动 */
+    }
+    .image-caption {
+        font-size: 16px; /* 文字大小 */
+        color: #333; /* 文字颜色 */
+        margin-top: 10px; /* 文字与图片的间距 */
+    }
     </style>
 </head>
 <body>
@@ -95,8 +100,8 @@ label, select {
     <div id="nameList"></div>
     <div class="image-container">
         <!-- 图片引用 -->
-        <img src="photo/contact.jpg" alt="关注我!联系我!" width="430" height="430">
-    <p class="image-caption">关注我!联系我!</p>
+        <img src="photo/contact.jpg" alt="关注我!联系我!">
+        <p class="image-caption">关注我!联系我!</p>
     </div>
 
     <!-- ... your HTML elements ... -->
