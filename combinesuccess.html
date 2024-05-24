@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .fly-title {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .title {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .rubric {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+        }
+        .content p {
+            margin: 10px 0;
+        }
+
+        .audio-container {
+            margin-bottom: 20px;
+        }
+        .progress {
+            width: 0;
+            height: 20px;
+            background: green;
+            display: none;
+        }
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="file" id="file-input" accept=".txt, .json"><!-- 文件上传标签 -->
+    <div id="articles-container"></div> <!-- 容纳所有文章内容的容器 -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@zip.js/zip.js@2.3.13/dist/zip.min.js"></script>
+
+    <script>
+        async function verifyZipPassword(file, password, audioElement, progressElement, loadingElement) {
+            try {
+                const reader = new zip.ZipReader(new zip.BlobReader(file), { password });
+                const entries = await reader.getEntries();
+                if (entries.length === 0) {
+                    throw new Error("No entries found in the zip file.");
+                }
+
+                const audioBlob = await entries[0].getData(new zip.BlobWriter("audio/mpeg"));
+                const mp3blob = URL.createObjectURL(audioBlob);
+                progressElement.style.display = 'none';
+                loadingElement.style.display = 'none';
+                audioElement.style.display = 'block';
+                audioElement.src = mp3blob;
+
+                audioElement.load();
+                // Comment out or remove this line to prevent auto-play
+                // audioElement.play().catch(error => {
+                //     console.error("Error playing audio:", error);
+                // });
+            } catch (err) {
+                console.error("Error verifying ZIP password:", err);
+            }
+        }
+
+        async function requestmp3(mp3zipurl, audioElement, progressElement, loadingElement) {
+            loadingElement.style.display = 'block';
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+
+                const response = await fetch(mp3zipurl, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch ZIP file. Status: " + response.status);
+                }
+
+                const reader = response.body.getReader();
+                const contentLength = +response.headers.get('Content-Length');
+                let receivedLength = 0;
+                const chunks = [];
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) {
+                        break;
+                    }
+                    chunks.push(value);
+                    receivedLength += value.length;
+                    const percentage = ((receivedLength / contentLength) * 100).toFixed(2) + '%';
+                    progressElement.style.display = 'block';
+                    progressElement.style.width = percentage;
+                    progressElement.textContent = percentage;
+                }
+
+                const blob = new Blob(chunks);
+                const password = md5('2q09kj876$A&21786351+_))l;k98zTRWE%$#*&^' + mp3zipurl.split("/").pop());
+              
+                verifyZipPassword(blob, password, audioElement, progressElement, loadingElement);
+            } catch (error) {
+                console.error("Error requesting MP3 ZIP file:", error);
+                loadingElement.style.display = 'none';
+            }
+        }
+
+        function md5(string) {
+            return CryptoJS.MD5(string).toString();
+        }
+
+        document.getElementById('file-input').addEventListener('change', handleFileUpload); // 添加文件上传的事件监听器
+
+        /**
+         * 处理文件上传
+         * @param {Event} event 文件上传事件
+         */
+        function handleFileUpload(event) {
+            const file = event.target.files[0]; // 获取上传的文件
+            if (file) {
+                const reader = new FileReader(); // 创建文件读取器
+                reader.onload = function(e) {
+                    const content = e.target.result; // 读取文件内容
+                    try {
+                        const data = JSON.parse(content); // 解析文件内容为JSON
+                        processArticles(data, data.articles.new); // 处理文章数据
+                    } catch (error) {
+                        console.error('Error parsing file content:', error); // 处理解析错误
+                    }
+                };
+                reader.readAsText(file); // 读取文件内容为文本
+            }
+        }
+
+        /**
+         * 处理文章数据
+         * @param {Object} data 文章数据
+         */
+        function processArticles(data, articles) {
+            const articlesContainer = document.getElementById('articles-container'); // 获取文章容器
+
+            const articleFetches = articles.map(article => {
+                return fetch(`https://api.hummingbird.businessreview.global/api/article/index?id=${article.article_id}`) // 获取单篇文章内容
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText); // 检查响应状态
+                        }
+                        return response.json().then(articleData => ({ articleData, articleId: article.article_id, audioPath: article.audio_path })); // 将文章数据与ID一起返回
+                    });
+            });
+
+            Promise.all(articleFetches) // 等待所有文章数据的获取
+                .then(allArticlesData => {
+                    console.log('All articles data fetched:', allArticlesData); // 打印所有文章数据
+                    allArticlesData.forEach(({ articleData, articleId, audioPath }) => {
+                        const article = articleData.body; // 获取文章主体内容
+                        createArticleContent(article, articleId, audioPath); // 创建并显示文章内容
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching the articles:', error); // 处理获取文章时的错误
+                });
+        }
+
+        function createArticleContent(article, articleId, audioPath) {
+            const container = document.getElementById('articles-container'); // 获取文章容器
+
+            const articleDiv = document.createElement('div'); // 创建一个新的div用于单篇文章
+            articleDiv.className = 'article';
+
+            if (audioPath) {
+                const mp3zipurl = 'https://d2du2xc4tgl2mb.cloudfront.net/' + audioPath; // 生成音频链接
+
+                const audioContainer = document.createElement('div');
+                audioContainer.className = 'audio-container';
+
+                const progressElement = document.createElement('div');
+                progressElement.className = 'progress';
+                const loadingElement = document.createElement('div');
+                loadingElement.className = 'loading';
+                loadingElement.textContent = 'Loading...';
+                const audioElement = document.createElement('audio');
+                audioElement.controls = true;
+                audioElement.style.display = 'none';
+
+                audioContainer.appendChild(progressElement);
+                audioContainer.appendChild(loadingElement);
+                audioContainer.appendChild(audioElement);
+                articleDiv.appendChild(audioContainer); // 将audioContainer添加到文章div
+
+                requestmp3(mp3zipurl, audioElement, progressElement, loadingElement);
+            }
+
+            // Fly title
+            const flyTitle = document.createElement('div'); // 创建用于Fly title的div
+            flyTitle.className = 'fly-title';
+            const flyTitleEn = article.fly_title.find(item => item.lang === 'en_GB')?.text || ''; // 查找英文Fly title
+            const flyTitleZh = article.fly_title.find(item => item.lang === 'zh_CN')?.text || ''; // 查找中文Fly title
+            flyTitle.textContent = `${flyTitleEn} / ${flyTitleZh}`; // 设置Fly title文本内容
+            articleDiv.appendChild(flyTitle); // 将Fly title添加到文章div
+
+            // Title
+            const title = document.createElement('div'); // 创建用于Title的div
+            title.className = 'title';
+            const titleEn = article.title.find(item => item.lang === 'en_GB')?.text || ''; // 查找英文Title
+            const titleZh = article.title.find(item => item.lang === 'zh_CN')?.text || ''; // 查找中文Title
+            title.textContent = `${titleEn} / ${titleZh}`; // 设置Title文本内容
+            articleDiv.appendChild(title); // 将Title添加到文章div
+
+            // Rubric
+            const rubric = document.createElement('div'); // 创建用于Rubric的div
+            rubric.className = 'rubric';
+            const rubricEn = article.rubric.find(item => item.lang === 'en_GB')?.text || ''; // 查找英文Rubric
+            const rubricZh = article.rubric.find(item => item.lang === 'zh_CN')?.text || ''; // 查找中文Rubric
+            rubric.textContent = `${rubricEn} / ${rubricZh}`; // 设置Rubric文本内容
+            articleDiv.appendChild(rubric); // 将Rubric添加到文章div
+
+            // Content
+            article.content.forEach(contentItem => {
+                if (contentItem.type === 'image') { // 如果是图片类型
+                    const image = contentItem.data.find(item => item.lang === 'en_GB'); // 查找英文图片
+                    if (image) {
+                        const stringToRemove = "https://gbr.businessreview.global/store/2024-02-17_ingest/08imijvigpugjgo210khs65mms8vqeiv/"; // 要移除的字符串
+                        const cleanImagePath = image.image_path.replace(stringToRemove, ""); // 移除字符串后的图片路径
+                        const encodedImagePath = encodeURIComponent(cleanImagePath); // 对图片路径进行编码
+                        const imageUrl = `https://www.businessreview.global/_next/image?url=https://d2du2xc4tgl2mb.cloudfront.net/article_images/${articleId}/${encodedImagePath}&w=1920&q=100`;
+                        
+                        const imgElement = document.createElement('img'); // 创建img元素
+                        imgElement.src = imageUrl; // 设置图片URL
+                        imgElement.alt = image.caption || ''; // 设置图片的alt文本
+                        articleDiv.appendChild(imgElement); // 将图片添加到文章div
+                    }
+                } else if (contentItem.type === 'paragraph') { // 如果是段落类型
+                    const paragraphEn = contentItem.data.find(item => item.lang === 'en_GB')?.text || ''; // 查找英文段落
+                    const paragraphZh = contentItem.data.find(item => item.lang === 'zh_CN')?.text || ''; // 查找中文段落
+                    const pElement = document.createElement('p'); // 创建p元素
+                    pElement.innerHTML = `<span>${paragraphEn}</span><br><span>${paragraphZh}</span>`; // 设置段落内容
+                    articleDiv.appendChild(pElement); // 将段落添加到文章div
+                }
+            });
+
+            container.appendChild(articleDiv); // 将文章div添加到容器
+
+            // Add page break after each article
+            const pageBreak = document.createElement('div'); // 创建用于页面分隔符的div
+            pageBreak.style.pageBreakBefore = 'always'; // 设置页面分隔符样式
+            container.appendChild(pageBreak); // 将页面分隔符添加到容器
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('file-input').addEventListener('change', handleFileUpload);
+        });
+    </script>
+</body>
+</html>
