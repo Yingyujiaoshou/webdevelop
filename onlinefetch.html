@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .fly-title {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .title {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .rubric {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+        }
+        .content p {
+            margin: 10px 0;
+        }
+
+        .audio-container {
+            margin-bottom: 20px;
+        }
+        .progress {
+            width: 0;
+            height: 20px;
+            background: green;
+            display: none;
+        }
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="articles-container"></div> <!-- 容纳所有文章内容的容器 -->
+
+    <script>
+        // 页面加载时读取本地文件内容
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('2023.txt') // 假设文件位于同一目录
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(content => {
+                    const articleIds = content.split('\n').map(id => id.trim()).filter(id => id);
+                    processArticles(articleIds);
+                })
+                .catch(error => {
+                    console.error('Error fetching the local file:', error);
+                });
+        });
+
+        async function processArticles(articleIds) {
+            const articlesContainer = document.getElementById('articles-container');
+            articlesContainer.innerHTML = ''; // 清空容器内容
+
+            const articleFetches = articleIds.map(articleId => {
+                return fetch(`https://api.hummingbird.businessreview.global/api/article/index?id=${articleId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json().then(articleData => ({ articleData, articleId }));
+                    });
+            });
+
+            try {
+                const allArticlesData = await Promise.all(articleFetches);
+                allArticlesData.forEach(({ articleData, articleId }) => {
+                    const article = articleData.body;
+                    createArticleContent(article, articleId);
+                });
+            } catch (error) {
+                console.error('Error fetching the articles:', error);
+            }
+        }
+
+        function createArticleContent(article, articleId) {
+            const container = document.getElementById('articles-container');
+
+            const articleDiv = document.createElement('div');
+            articleDiv.className = 'article';
+
+            // Fly title
+            const flyTitle = document.createElement('div');
+            flyTitle.className = 'fly-title';
+            const flyTitleEn = article.fly_title.find(item => item.lang === 'en_GB')?.text || '';
+            const flyTitleZh = article.fly_title.find(item => item.lang === 'zh_CN')?.text || '';
+            flyTitle.textContent = `${flyTitleEn} / ${flyTitleZh}`;
+            articleDiv.appendChild(flyTitle);
+
+            // Title
+            const title = document.createElement('div');
+            title.className = 'title';
+            const titleEn = article.title.find(item => item.lang === 'en_GB')?.text || '';
+            const titleZh = article.title.find(item => item.lang === 'zh_CN')?.text || '';
+            title.textContent = `${titleEn} / ${titleZh}`;
+            articleDiv.appendChild(title);
+
+            // Rubric
+            const rubric = document.createElement('div');
+            rubric.className = 'rubric';
+            const rubricEn = article.rubric.find(item => item.lang === 'en_GB')?.text || '';
+            const rubricZh = article.rubric.find(item => item.lang === 'zh_CN')?.text || '';
+            rubric.textContent = `${rubricEn} / ${rubricZh}`;
+            articleDiv.appendChild(rubric);
+
+            // Content
+            article.content.forEach(contentItem => {
+                if (contentItem.type === 'image') {
+                    const image = contentItem.data.find(item => item.lang === 'en_GB');
+                    if (image) {
+                        const stringToRemove = "https://gbr.businessreview.global/store/2024-02-17_ingest/08imijvigpugjgo210khs65mms8vqeiv/";
+                        const cleanImagePath = image.image_path.replace(stringToRemove, "");
+                        const encodedImagePath = encodeURIComponent(cleanImagePath);
+                        const imageUrl = `https://www.businessreview.global/_next/image?url=https://d2du2xc4tgl2mb.cloudfront.net/article_images/${articleId}/${encodedImagePath}&w=1920&q=100`;
+
+                        const imgElement = document.createElement('img');
+                        imgElement.src = imageUrl;
+                        imgElement.alt = image.caption || '';
+                        articleDiv.appendChild(imgElement);
+                    }
+                } else if (contentItem.type === 'paragraph') {
+                    const paragraphEn = contentItem.data.find(item => item.lang === 'en_GB')?.text || '';
+                    const paragraphZh = contentItem.data.find(item => item.lang === 'zh_CN')?.text || '';
+                    const pElement = document.createElement('p');
+                    pElement.innerHTML = `<span>${paragraphEn}</span><br><span>${paragraphZh}</span>`;
+                    articleDiv.appendChild(pElement);
+                }
+            });
+
+            container.appendChild(articleDiv);
+
+            // Add page break after each article
+            const pageBreak = document.createElement('div');
+            pageBreak.style.pageBreakBefore = 'always';
+            container.appendChild(pageBreak);
+        }
+    </script>
+</body>
+</html>
