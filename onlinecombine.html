@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .fly-title {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .title {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .rubric {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+        }
+        .content p {
+            margin: 10px 0;
+        }
+        .audio-container {
+            margin-bottom: 20px;
+        }
+        .progress {
+            width: 0;
+            height: 20px;
+            background: green;
+            display: none;
+        }
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="articles-container"></div> <!-- 容纳所有文章内容的容器 -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@zip.js/zip.js@2.3.13/dist/zip.min.js"></script>
+
+    <script>
+        async function verifyZipPassword(file, password, audioElement, progressElement, loadingElement) {
+            try {
+                const reader = new zip.ZipReader(new zip.BlobReader(file), { password });
+                const entries = await reader.getEntries();
+                if (entries.length === 0) {
+                    throw new Error("No entries found in the zip file.");
+                }
+
+                const audioBlob = await entries[0].getData(new zip.BlobWriter("audio/mpeg"));
+                const mp3blob = URL.createObjectURL(audioBlob);
+                progressElement.style.display = 'none';
+                loadingElement.style.display = 'none';
+                audioElement.style.display = 'block';
+                audioElement.src = mp3blob;
+
+                audioElement.load();
+                // Comment out or remove this line to prevent auto-play
+                // audioElement.play().catch(error => {
+                //     console.error("Error playing audio:", error);
+                // });
+            } catch (err) {
+                console.error("Error verifying ZIP password:", err);
+            }
+        }
+
+        async function requestmp3(mp3zipurl, audioElement, progressElement, loadingElement) {
+            loadingElement.style.display = 'block';
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+
+                const response = await fetch(mp3zipurl, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch ZIP file. Status: " + response.status);
+                }
+
+                const reader = response.body.getReader();
+                const contentLength = +response.headers.get('Content-Length');
+                let receivedLength = 0;
+                const chunks = [];
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) {
+                        break;
+                    }
+                    chunks.push(value);
+                    receivedLength += value.length;
+                    const percentage = ((receivedLength / contentLength) * 100).toFixed(2) + '%';
+                    progressElement.style.display = 'block';
+                    progressElement.style.width = percentage;
+                    progressElement.textContent = percentage;
+                }
+
+                const blob = new Blob(chunks);
+                const password = md5('2q09kj876$A&21786351+_))l;k98zTRWE%$#*&^' + mp3zipurl.split("/").pop());
+              
+                verifyZipPassword(blob, password, audioElement, progressElement, loadingElement);
+            } catch (error) {
+                console.error("Error requesting MP3 ZIP file:", error);
+                loadingElement.style.display = 'none';
+            }
+        }
+
+        function md5(string) {
+            return CryptoJS.MD5(string).toString();
+        }
+
+        async function fetchArticles() {
+            try {
+                const response = await fetch('https://api.hummingbird.businessreview.global/api/toc/get_articles');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                processArticles(data, data.articles.new);
+            } catch (error) {
+                console.error('Error fetching articles:', error);
+            }
+        }
+
+        function processArticles(data, articles) {
+            const articlesContainer = document.getElementById('articles-container');
+
+            const articleFetches = articles.map(article => {
+                return fetch(`https://api.hummingbird.businessreview.global/api/article/index?id=${article.article_id}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json().then(articleData => ({ articleData, articleId: article.article_id, audioPath: article.audio_path }));
+                    });
+            });
+
+            Promise.all(articleFetches)
+                .then(allArticlesData => {
+                    console.log('All articles data fetched:', allArticlesData);
+                    allArticlesData.forEach(({ articleData, articleId, audioPath }) => {
+                        const article = articleData.body;
+                        createArticleContent(article, articleId, audioPath);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching the articles:', error);
+                });
+        }
+
+        function createArticleContent(article, articleId, audioPath) {
+            const container = document.getElementById('articles-container');
+
+            const articleDiv = document.createElement('div');
+            articleDiv.className = 'article';
+
+            if (audioPath) {
+                const mp3zipurl = 'https://d2du2xc4tgl2mb.cloudfront.net/' + audioPath;
+
+                const audioContainer = document.createElement('div');
+                audioContainer.className = 'audio-container';
+
+                const progressElement = document.createElement('div');
+                progressElement.className = 'progress';
+                const loadingElement = document.createElement('div');
+                loadingElement.className = 'loading';
+                loadingElement.textContent = 'Loading...';
+                const audioElement = document.createElement('audio');
+                audioElement.controls = true;
+                audioElement.style.display = 'none';
+
+                audioContainer.appendChild(progressElement);
+                audioContainer.appendChild(loadingElement);
+                audioContainer.appendChild(audioElement);
+                articleDiv.appendChild(audioContainer);
+
+                requestmp3(mp3zipurl, audioElement, progressElement, loadingElement);
+            }
+
+            // Fly title
+            const flyTitle = document.createElement('div');
+            flyTitle.className = 'fly-title';
+            const flyTitleEn = article.fly_title.find(item => item.lang === 'en_GB')?.text || '';
+            const flyTitleZh = article.fly_title.find(item => item.lang === 'zh_CN')?.text || '';
+            flyTitle.textContent = `${flyTitleEn} / ${flyTitleZh}`;
+            articleDiv.appendChild(flyTitle);
+
+            // Title
+            const title = document.createElement('div');
+            title.className = 'title';
+            const titleEn = article.title.find(item => item.lang === 'en_GB')?.text || '';
+            const titleZh = article.title.find(item => item.lang === 'zh_CN')?.text || '';
+            title.textContent = `${titleEn} / ${titleZh}`;
+            articleDiv.appendChild(title);
+
+            // Rubric
+            const rubric = document.createElement('div');
+            rubric.className = 'rubric';
+            const rubricEn = article.rubric.find(item => item.lang === 'en_GB')?.text || '';
+            const rubricZh = article.rubric.find(item => item.lang === 'zh_CN')?.text || '';
+            rubric.textContent = `${rubricEn} / ${rubricZh}`;
+            articleDiv.appendChild(rubric);
+
+            // Content
+            article.content.forEach(contentItem => {
+                if (contentItem.type === 'image') {
+                    const image = contentItem.data.find(item => item.lang === 'en_GB');
+                    if (image) {
+                        const stringToRemove = "https://gbr.businessreview.global/store/2024-02-17_ingest/08imijvigpugjgo210khs65mms8vqeiv/";
+                        const cleanImagePath = image.image_path.replace(stringToRemove, "");
+                        const encodedImagePath = encodeURIComponent(cleanImagePath);
+                        const imageUrl = `https://www.businessreview.global/_next/image?url=https://d2du2xc4tgl2mb.cloudfront.net/article_images/${articleId}/${encodedImagePath}&w=1920&q=100`;
+                        
+                        const imgElement = document.createElement('img');
+                        imgElement.src = imageUrl;
+                        imgElement.alt = image.caption || '';
+                        articleDiv.appendChild(imgElement);
+                    }
+                } else if (contentItem.type === 'paragraph') {
+                    const paragraphEn = contentItem.data.find(item => item.lang === 'en_GB')?.text || '';
+                    const paragraphZh = contentItem.data.find(item => item.lang === 'zh_CN')?.text || '';
+                    const pElement = document.createElement('p');
+                    pElement.innerHTML = `<span>${paragraphEn}</span><br><span>${paragraphZh}</span>`;
+                    articleDiv.appendChild(pElement);
+                }
+            });
+
+            container.appendChild(articleDiv);
+
+            // Add page break after each article
+            const pageBreak = document.createElement('div');
+            pageBreak.style.pageBreakBefore = 'always';
+            container.appendChild(pageBreak);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchArticles(); // 在页面加载完成时调用 fetchArticles 函数
+        });
+    </script>
+</body>
+</html>
