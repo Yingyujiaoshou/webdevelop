@@ -220,7 +220,7 @@
                     if (image) {
                         const stringToRemove = "https://gbr.businessreview.global/store/2024-02-17_ingest/08imijvigpugjgo210khs65mms8vqeiv/";
                         const cleanImagePath = image.image_path.replace(stringToRemove, "");
-                        const encodedImagePath = encodeURIComponent(cleanImagePath);
+                        const encodedImagePath =cleanImagePath.replace("?","%253F");
                         const imageUrl = `https://www.businessreview.global/_next/image?url=https://d2du2xc4tgl2mb.cloudfront.net/article_images/${articleId}/${encodedImagePath}&w=1920&q=100`;
                         
                         const imgElement = document.createElement('img');
